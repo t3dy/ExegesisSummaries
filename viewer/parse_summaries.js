@@ -11,47 +11,88 @@ for (const file of files) {
   if (!file.endsWith('.md')) continue;
 
   const content = fs.readFileSync(path.join(SUMMARIES_DIR, file), 'utf-8');
-  
-  // Extract Chunk ID
-  const chunkIdMatch = content.match(/- \*\*Chunk ID\*\*: (.*)/);
-  const sectionIdMatch = content.match(/- \*\*Section ID\*\*: (.*)/);
-  const themesMatch = content.match(/- \*\*Themes\*\*: (.*)/);
-  const keyEntitiesMatch = content.match(/- \*\*Key Entities\*\*: (.*)/);
+
+  // Try to parse format 1 (later sections)
+  const chunkIdMatchV1 = content.match(/- \*\*Chunk ID\*\*: (.*)/);
+  const sectionIdMatchV1 = content.match(/- \*\*Section ID\*\*: (.*)/);
+  const themesMatchV1 = content.match(/- \*\*Themes\*\*: (.*)/);
+  const keyEntitiesMatchV1 = content.match(/- \*\*Key Entities\*\*: (.*)/);
+
+  // Try to parse format 2 (earlier sections)
+  const chunkIdMatchV2 = content.match(/^# (.*?)\r?\n/);
+  const sectionIdMatchV2 = content.match(/^# (SECTION_\d+)\r?\n/m);
+
+  let id = file.replace('.txt.md', '').replace('.md', '');
+  if (chunkIdMatchV1 && chunkIdMatchV1[1]) {
+    id = chunkIdMatchV1[1].trim();
+  } else if (chunkIdMatchV2 && chunkIdMatchV2[1]) {
+    id = chunkIdMatchV2[1].trim();
+  }
+
+  let section = "Unknown";
+  if (sectionIdMatchV1 && sectionIdMatchV1[1]) {
+    section = sectionIdMatchV1[1].trim();
+  } else if (sectionIdMatchV2 && sectionIdMatchV2[1]) {
+    section = sectionIdMatchV2[1].trim();
+  }
 
   // Extract date from chunk ID (e.g. 1981-04-16_Pat_181 -> 1981-04-16)
   let date = "Unknown";
   let year = "Unknown";
-  if (chunkIdMatch && chunkIdMatch[1]) {
-    const dMatch = chunkIdMatch[1].match(/^(\d{4}-\d{2}-\d{2})/);
-    if (dMatch) {
-      date = dMatch[1];
-      year = date.split('-')[0];
-    } else {
-        const dMatch2 = chunkIdMatch[1].match(/^(\d{4})/);
-        if (dMatch2) {
-            year = dMatch2[1];
-        }
+  const dMatch = id.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (dMatch) {
+    date = dMatch[1];
+    year = date.split('-')[0];
+  } else {
+    const dMatch2 = id.match(/^(\d{4})/);
+    if (dMatch2) {
+      year = dMatch2[1];
     }
   }
 
-  // Extract excerpt: first line under Key Claims
   let excerpt = "";
-  const claimsParts = content.split('## Key Claims');
-  if (claimsParts.length > 1) {
-    const claimsText = claimsParts[1].split('## ')[0].trim();
+  // Check for 'Key Claims' or 'key_claims'
+  const claimsRegex = /## [Kk]ey_?[Cc]laims?\r?\n(.*?)(\r?\n## |$)/s;
+  const claimsMatch = content.match(claimsRegex);
+  if (claimsMatch && claimsMatch[1]) {
+    const claimsText = claimsMatch[1].trim();
     const firstClaim = claimsText.split('\n')[0].replace(/^- /, '').trim();
     excerpt = firstClaim;
   }
 
+  // Extract themes
+  let themes = [];
+  if (themesMatchV1 && themesMatchV1[1]) {
+    themes = themesMatchV1[1].split(',').map(s => s.trim());
+  } else {
+    const themesRegex = /## (recurring_concepts|themes)\r?\n(.*?)(\r?\n## |$)/s;
+    const tMatch = content.match(themesRegex);
+    if (tMatch && tMatch[2]) {
+      themes = tMatch[2].split('\n').filter(s => s.trim().startsWith('-')).map(s => s.replace(/^- /, '').trim());
+    }
+  }
+
+  // Extract entities
+  let entities = [];
+  if (keyEntitiesMatchV1 && keyEntitiesMatchV1[1]) {
+    entities = keyEntitiesMatchV1[1].split(',').map(s => s.trim());
+  } else {
+    const entitiesRegex = /## (people_entities|entities)\r?\n(.*?)(\r?\n## |$)/s;
+    const eMatch = content.match(entitiesRegex);
+    if (eMatch && eMatch[2]) {
+      entities = eMatch[2].split('\n').filter(s => s.trim().startsWith('-')).map(s => s.replace(/^- /, '').trim());
+    }
+  }
+
   summaries.push({
-    id: chunkIdMatch ? chunkIdMatch[1].trim() : file,
-    section: sectionIdMatch ? sectionIdMatch[1].trim() : "Unknown",
-    themes: themesMatch ? themesMatch[1].split(',').map(s => s.trim()) : [],
-    entities: keyEntitiesMatch ? keyEntitiesMatch[1].split(',').map(s => s.trim()) : [],
-    date: date,
-    year: year,
-    excerpt: excerpt,
-    content: content,
+    id,
+    section,
+    themes,
+    entities,
+    date,
+    year,
+    excerpt,
+    content,
   });
 }
 
