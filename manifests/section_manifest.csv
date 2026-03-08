@@ -1,0 +1,18 @@
+section_id,section_order,section_title,date_text,iso_date_if_inferable,recipient,section_type,source_filename,start_marker,end_marker,notes
+SECTION_001,1,Claudia,"February 27, 1975",1975-02-27,Claudia,Letter,exegesis_cleaned.txt,"February 27, 1975",,5602 words
+SECTION_002,2,Phyllis,"March 2, 1975",1975-03-02,Phyllis,Letter,exegesis_cleaned.txt,"March 2, 1975",,401 words
+SECTION_003,3,Tony,,,Tony,Letter,exegesis_cleaned.txt,"Dear Tony,",,2603 words
+SECTION_004,4,Claudia,,,Claudia,Letter,exegesis_cleaned.txt,"Dear Claudia,",,2147 words
+SECTION_005,5,Ursula,"March 5, 1975",1975-03-05,Ursula,Letter,exegesis_cleaned.txt,"March 5, 1975",,1991 words
+SECTION_006,6,Letter,"March 4, 1975",1975-03-04,,Journal,exegesis_cleaned.txt,"March 4, 1975",,1072 words
+SECTION_007,7,Henry,"February 29, 1975",,Henry,Letter,exegesis_cleaned.txt,"February 29, 1975",,2416 words
+SECTION_008,8,Claudia,,,Claudia,Letter,exegesis_cleaned.txt,"Dear Claudia,",,2797 words
+SECTION_009,9,Claudia,,,Claudia,Letter,exegesis_cleaned.txt,"Dear Claudia,",,5061 words
+SECTION_010,10,Claudia,,,Claudia,Letter,exegesis_cleaned.txt,"Dear Claudia,",,89454 words
+SECTION_011,11,Doris,"September 17, 1975",1975-09-17,Doris,Letter,exegesis_cleaned.txt,"September 17, 1975",,1635 words
+SECTION_012,12,Letter,"September 15, 1975",1975-09-15,,Journal,exegesis_cleaned.txt,"September 15, 1975",,6310 words
+SECTION_013,13,Letter,"November 5, 1975",1975-11-05,,Journal,exegesis_cleaned.txt,"November 5, 1975",,35568 words
+SECTION_014,14,Dorothy,"September 12, 1976",1976-09-12,Dorothy,Letter,exegesis_cleaned.txt,"September 12, 1976",,2297 words
+SECTION_015,15,Dorothy,"September 15, 1976",1976-09-15,Dorothy,Letter,exegesis_cleaned.txt,"September 15, 1976",folder 20 - 001,434153 words
+SECTION_016,16,Letter,"October 10, 1978",1978-10-10,,Journal,exegesis_cleaned.txt,"October 10, 1978",folder 90 - 003,654398 words
+SECTION_017,17,Pat,"April 16, 1981",1981-04-16,Pat,Letter,exegesis_cleaned.txt,"April 16, 1981",,338355 words

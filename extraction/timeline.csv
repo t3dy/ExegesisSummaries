@@ -1,0 +1,5 @@
+timeline_id,date_text,iso_date_if_inferable,event_type,event_summary,section_id,chunk_id,confidence
+T001,March 1974,1974-03,Mystical,"Vision of the Parousia, pale light, death of Pinky the cat.",SECTION_001,1975-02-27_Claudia_01,High
+T002,the '50s,,Autobiographical,Murder of a poor rat to protect his daughters; burial with St. Christopher's medal.,SECTION_001,1975-02-27_Claudia_01,High
+T003,1964,1964,Mystical,Acid trip where he experienced the Dies Irae/Day of Wrath.,SECTION_001,1975-02-27_Claudia_01,High
+T004,Feb 25,1975-02-25,Mystical,Stoned prayer where he realized Erasmus was his guide replacing his father.,SECTION_001,1975-02-27_Claudia_02,Medium

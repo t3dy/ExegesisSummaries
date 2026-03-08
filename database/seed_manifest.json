@@ -1,0 +1,46 @@
+{
+  "database": "exegesis_workbench.db",
+  "version": "1.0",
+  "tables_to_seed": [
+    {
+      "table": "manifests_sections",
+      "csv_source": "manifests/section_manifest.csv"
+    },
+    {
+      "table": "manifests_chunks",
+      "csv_source": "manifests/chunk_manifest.csv"
+    },
+    {
+      "table": "concepts",
+      "csv_source": "extraction/concept_glossary.csv"
+    },
+    {
+      "table": "timeline",
+      "csv_source": "extraction/timeline.csv"
+    },
+    {
+      "table": "arguments",
+      "csv_source": "extraction/argument_map.csv"
+    },
+    {
+      "table": "people",
+      "csv_source": "extraction/people_index.csv"
+    },
+    {
+      "table": "texts_works",
+      "csv_source": "extraction/texts_works_index.csv"
+    },
+    {
+      "table": "entity_mentions",
+      "csv_source": "extraction/entity_mentions.csv"
+    },
+    {
+      "table": "theme_passages",
+      "csv_source": "extraction/theme_passages.csv"
+    },
+    {
+      "table": "cross_references",
+      "csv_source": "extraction/cross_reference_table.csv"
+    }
+  ]
+}
