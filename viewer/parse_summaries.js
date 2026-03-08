@@ -50,6 +50,19 @@ for (const file of files) {
     }
   }
 
+  // Fallback: If no date could be extracted from ID, check the first 5 lines for a year (like # [Undated, early 1975])
+  if (year === "Unknown") {
+    const topLines = content.split(/\r?\n/).slice(0, 5);
+    for (const line of topLines) {
+      const yMatch = line.match(/\b(197\d|198\d)\b/);
+      if (yMatch) {
+        year = yMatch[1];
+        date = line.replace(/^#\s*/, '').trim();
+        break;
+      }
+    }
+  }
+
   let excerpt = "";
   // Check for 'Key Claims' or 'key_claims'
   const claimsRegex = /## [Kk]ey_?[Cc]laims?\r?\n(.*?)(\r?\n## |$)/s;
