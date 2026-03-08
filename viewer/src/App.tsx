@@ -27,8 +27,11 @@ function App() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/summaries.json')
-      .then(res => res.json())
+    fetch(`${import.meta.env.BASE_URL}summaries.json`)
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch summaries");
+        return res.json();
+      })
       .then(data => {
         setSummaries(data);
         const years = [...new Set(data.map((s: Summary) => s.year))].filter(Boolean) as string[];
@@ -39,6 +42,10 @@ function App() {
         });
         setAvailableYears(years);
         if (years.length > 0) setActiveYear(years[0]);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load summaries", err);
         setLoading(false);
       });
   }, []);
