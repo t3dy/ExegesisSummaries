@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import './index.css';
+import TagPage from './TagPage';
 
 interface Summary {
   id: string;
@@ -55,24 +56,17 @@ function App() {
   // Filter logic
   const filteredSummaries = useMemo(() => {
     return summaries.filter(s => {
-      // If there's an active tag, it overrides year filtering conceptually, but let's keep year if searching within a tag? 
-      // Actually, standard behavior: if a global tag is clicked, ignore year, just show all for that tag, or show tags WITHIN that year?
-      // Let's do: Tag + Search overrides Year. If no tag/search, use Year.
-
       const inSearch = searchQuery === '' ||
         s.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
         s.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
         s.themes.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())) ||
         s.entities.some(e => e.toLowerCase().includes(searchQuery.toLowerCase()));
 
-      const inTag = !activeTag || s.themes.includes(activeTag) || s.entities.includes(activeTag);
+      const inYear = (searchQuery !== '' || activeYear === null) ? true : s.year === activeYear;
 
-      const bypassYear = searchQuery !== '' || activeTag !== null;
-      const inYear = bypassYear ? true : (s.year === activeYear || activeYear === null);
-
-      return inSearch && inTag && inYear;
+      return inSearch && inYear;
     });
-  }, [summaries, activeYear, searchQuery, activeTag]);
+  }, [summaries, activeYear, searchQuery]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredSummaries.length / ITEMS_PER_PAGE);
@@ -95,6 +89,18 @@ function App() {
   };
 
   if (loading) return <div style={{ padding: '2rem' }}>Dusting off the volumes...</div>;
+
+  if (activeTag) {
+    const tagSummaries = summaries.filter(s => s.themes.includes(activeTag) || s.entities.includes(activeTag));
+    return (
+      <TagPage
+        tag={activeTag}
+        summaries={tagSummaries}
+        onBack={() => setActiveTag(null)}
+        onTagClick={(tag) => { setActiveTag(tag); window.scrollTo(0, 0); }}
+      />
+    );
+  }
 
   return (
     <div className="app-container">
@@ -136,9 +142,8 @@ function App() {
         <header className="timeline-header">
           <div className="active-filters">
             {searchQuery && <span className="pill-tag">Search: "{searchQuery}"</span>}
-            {activeTag && <span className="pill-tag">Tag: {activeTag}</span>}
-            {(searchQuery || activeTag) && (
-              <button className="clear-filter" onClick={clearFilters}>Clear Filters</button>
+            {searchQuery && (
+              <button className="clear-filter" onClick={clearFilters}>Clear Search</button>
             )}
           </div>
           <div className="result-count">
