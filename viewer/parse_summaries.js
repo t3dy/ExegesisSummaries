@@ -63,6 +63,22 @@ for (const file of files) {
     }
   }
 
+  // Add circa dates based on ordering in the text file as per user request
+  const orderMatch = file.match(/_(\d+)(?:\.txt)?\.md$/);
+  if (orderMatch) {
+    const order = parseInt(orderMatch[1], 10);
+    // The Dorothy section (1976) has 242 chunks
+    if (year === '1976' && file.includes('Dorothy') && order > 121) {
+      year = 'circa 1977';
+      date = '1977-01-01'; // Sort roughly after true 1976
+    }
+    // Section 16 (1978) has 364 chunks
+    if (year === '1978' && file.includes('SECTION_016') && order > 121) {
+      year = 'circa 1979-1980';
+      date = '1979-01-01'; // Sort roughly after true 1978
+    }
+  }
+
   let excerpt = "";
   // Check for 'Key Claims' or 'key_claims' -- safely match up to the next \n##
   const claimsRegex = /## (?:key claims|key_claims)\s*\r?\n([\s\S]*?)(?=\r?\n##|$)/i;
