@@ -32,12 +32,16 @@ Each individual chunk was then read and analyzed to extract the core philosophic
 - **Key Claims:** A synthesized, bulleted breakdown of what PKD is actually arguing or realizing in that specific chunk.
 - **Recurring Concepts / Theological Motifs:** Identifying where his active thinking dovetails with established philosophy (e.g., *Spinoza*, *Malebranche*) or his own internal vernacular.
 
-### 4. The Data Pipeline
+### 4. Chronological Mapping & Gap Years
+The archival "91 Folders" system used for *The Exegesis* wasn't strictly chronological in compiling. Thus, our parser uses contextual clues and sequence analysis to map the raw chunks to historical timelines. Massive undated or broadly-dated blocks of text are computationally subdivided to maintain a sensible narrative order, resulting in proportionally mapped gap years (e.g., `circa 1977` and `circa 1979-1980`) derived from their exact sequential placement within the original manuscript.
+
+### 5. The Data Pipeline
 All of the ~1,100 resulting `.md` summary files are processed by a custom Node.js script. This script strips the Markdown, parses the YAML/list metadata, and complies the entire repository down into a single, highly-optimized `summaries.json` database.
 
-### 5. The Viewer Interface
+### 6. The Viewer Interface
 The frontend is a static React Single Page Application (SPA) built with Vite. It consumes the lightweight `summaries.json` payload, allowing instant, client-side filtering and full-text search across thousands of pages of summaries without a backend server.
 - The UI was specifically designed to resemble a "Rare Books Room," utilizing parchment textures, serif typography, and chronological timeline pagination.
+- **Dedicated Tag Pages:** Clicking any Theme or Key Entity instantly pivots the viewer into a chronological collection of that specific concept across all documented years, providing a direct lens into how PKD's thoughts evolved.
 
 ---
 
