@@ -65,7 +65,7 @@ for (const file of files) {
 
   let excerpt = "";
   // Check for 'Key Claims' or 'key_claims' -- safely match up to the next \n##
-  const claimsRegex = /## [Kk]ey_?[Cc]laims?\r?\n(.*?)(?:\r?\n##|$)/s;
+  const claimsRegex = /## (?:key claims|key_claims)\s*\r?\n([\s\S]*?)(?=\r?\n##|$)/i;
   const claimsMatch = content.match(claimsRegex);
   if (claimsMatch && claimsMatch[1]) {
     const claimsText = claimsMatch[1].trim();
