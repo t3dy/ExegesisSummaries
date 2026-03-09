@@ -36,15 +36,15 @@ for (const file of files) {
     section = sectionIdMatchV2[1].trim();
   }
 
-  // Extract date from chunk ID (e.g. 1981-04-16_Pat_181 -> 1981-04-16)
+  // Extract date from file instead of chunk ID, because chunk ID can just be "16-01"
   let date = "Unknown";
   let year = "Unknown";
-  const dMatch = id.match(/^(\d{4}-\d{2}-\d{2})/);
+  const dMatch = file.match(/^(\d{4}-\d{2}-\d{2})/);
   if (dMatch) {
     date = dMatch[1];
     year = date.split('-')[0];
   } else {
-    const dMatch2 = id.match(/^(\d{4})/);
+    const dMatch2 = file.match(/^(\d{4})/);
     if (dMatch2) {
       year = dMatch2[1];
     }
@@ -64,12 +64,13 @@ for (const file of files) {
   }
 
   let excerpt = "";
-  // Check for 'Key Claims' or 'key_claims'
-  const claimsRegex = /## [Kk]ey_?[Cc]laims?\r?\n(.*?)(\r?\n## |$)/s;
+  // Check for 'Key Claims' or 'key_claims' -- safely match up to the next \n##
+  const claimsRegex = /## [Kk]ey_?[Cc]laims?\r?\n(.*?)(?:\r?\n##|$)/s;
   const claimsMatch = content.match(claimsRegex);
   if (claimsMatch && claimsMatch[1]) {
     const claimsText = claimsMatch[1].trim();
-    const firstClaim = claimsText.split('\n')[0].replace(/^- /, '').trim();
+    // take the first line of the claims text
+    const firstClaim = claimsText.split(/\r?\n/)[0].replace(/^- /, '').trim();
     excerpt = firstClaim;
   }
 
