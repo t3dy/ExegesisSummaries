@@ -246,6 +246,16 @@ a:hover {
   background: var(--border-sepia);
 }
 
+.pill-tag.entity.linked {
+  background: rgba(192, 154, 77, 0.25);
+  border-color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.pill-tag.entity.linked:hover {
+  background: rgba(192, 154, 77, 0.4);
+}
+
 /* Markdown Content */
 .markdown-body {
   margin-top: 1.5rem;
