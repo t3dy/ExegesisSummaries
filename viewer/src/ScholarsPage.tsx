@@ -168,7 +168,7 @@ export default function ScholarsPage({ onBack, sectionNav }: ScholarsPageProps) 
           </p>
         </div>
 
-        {sectionNav && (
+        {sectionNav ? (
           <div className="nav-section">
             <h3>Sections</h3>
             <div className="year-list">
@@ -178,6 +178,10 @@ export default function ScholarsPage({ onBack, sectionNav }: ScholarsPageProps) 
               <button className="year-button" onClick={sectionNav.onGoBiography}>Biography</button>
             </div>
           </div>
+        ) : (
+          <button onClick={onBack} style={{ background: 'none', border: 'none', color: 'var(--accent-gold)', cursor: 'pointer', textAlign: 'left', padding: '0.5rem 0', fontSize: '0.95rem' }}>
+            &larr; Back to Exegesis
+          </button>
         )}
 
         <input

@@ -185,7 +185,7 @@ export default function BiographyPage({ onBack, dictionaryLookup, resolveToDictT
           </p>
         </div>
 
-        {sectionNav && (
+        {sectionNav ? (
           <div className="nav-section">
             <h3>Sections</h3>
             <div className="year-list">
@@ -195,6 +195,10 @@ export default function BiographyPage({ onBack, dictionaryLookup, resolveToDictT
               <button className="year-button active" style={{ fontWeight: 700 }}>Biography</button>
             </div>
           </div>
+        ) : (
+          <button onClick={onBack} style={{ background: 'none', border: 'none', color: 'var(--accent-gold)', cursor: 'pointer', textAlign: 'left', padding: '0.5rem 0', fontSize: '0.95rem' }}>
+            &larr; Back to Exegesis
+          </button>
         )}
 
         <input
